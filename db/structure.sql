@@ -39,6 +39,18 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: cards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cards (
+    number character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    customer_id bigint
+);
+
+
+--
 -- Name: customers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -97,6 +109,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: cards cards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_pkey PRIMARY KEY (number);
+
+
+--
 -- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -110,6 +130,13 @@ ALTER TABLE ONLY public.customers
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: index_cards_on_customer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cards_on_customer_id ON public.cards USING btree (customer_id);
 
 
 --
@@ -133,6 +160,7 @@ CREATE INDEX index_customers_on_first_name_and_last_name ON public.customers USI
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('20181211112111');
+('20181211112111'),
+('20181211120554');
 
 
