@@ -1,0 +1,8 @@
+db setup:
+>> psql -U postgres  
+create database softshop_development;
+create user softshop;
+grant all privileges on database softshop_development to softshop;
+
+
+
