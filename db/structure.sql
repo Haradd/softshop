@@ -39,12 +39,53 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: customers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.customers (
+    id bigint NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(50) NOT NULL,
+    phone_number character varying(15),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.customers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: customers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.customers_id_seq'::regclass);
 
 
 --
@@ -56,6 +97,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -64,10 +113,26 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: index_customers_on_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_customers_on_email ON public.customers USING btree (email);
+
+
+--
+-- Name: index_customers_on_first_name_and_last_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_customers_on_first_name_and_last_name ON public.customers USING btree (first_name, last_name);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
+INSERT INTO "schema_migrations" (version) VALUES
+('20181211112111');
 
 
