@@ -94,10 +94,49 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: wishlists; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.wishlists (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    customer_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: wishlists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.wishlists_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: wishlists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.wishlists_id_seq OWNED BY public.wishlists.id;
+
+
+--
 -- Name: customers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.customers_id_seq'::regclass);
+
+
+--
+-- Name: wishlists id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wishlists ALTER COLUMN id SET DEFAULT nextval('public.wishlists_id_seq'::regclass);
 
 
 --
@@ -133,6 +172,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: wishlists wishlists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wishlists
+    ADD CONSTRAINT wishlists_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: index_cards_on_customer_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -154,6 +201,21 @@ CREATE INDEX index_customers_on_first_name_and_last_name ON public.customers USI
 
 
 --
+-- Name: index_wishlists_on_customer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_wishlists_on_customer_id ON public.wishlists USING btree (customer_id);
+
+
+--
+-- Name: wishlists fk_rails_18bd87f3b0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wishlists
+    ADD CONSTRAINT fk_rails_18bd87f3b0 FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -161,6 +223,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20181211112111'),
-('20181211120554');
+('20181211120554'),
+('20181212180721');
 
 
