@@ -216,6 +216,14 @@ ALTER TABLE ONLY public.wishlists
 
 
 --
+-- Name: cards fk_rails_778182f614; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT fk_rails_778182f614 FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 

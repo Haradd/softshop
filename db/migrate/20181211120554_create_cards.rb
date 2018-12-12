@@ -5,7 +5,7 @@ class CreateCards < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_reference :cards, :customer, index: true
+    add_reference :cards, :customer, index: true, foreign_key: true
 
     reversible do |change|
       change.up do
