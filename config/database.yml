@@ -12,7 +12,8 @@ development:
   database: <%= ENV['POSTGRES_DB'] %>
 test:
   <<: *default
-  database: <%= ENV['POSTGRES_TEST_DB'] %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  database: <%= ENV['POSTGRES_DB'] %>
 production:
   <<: *default
   database: <%= ENV['POSTGRES_DB'] %>
