@@ -85,6 +85,18 @@ ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
 
 
 --
+-- Name: product_types; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.product_types (
+    name character varying(100) NOT NULL,
+    description text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: publishers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -176,6 +188,14 @@ ALTER TABLE ONLY public.customers
 
 
 --
+-- Name: product_types product_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.product_types
+    ADD CONSTRAINT product_types_pkey PRIMARY KEY (name);
+
+
+--
 -- Name: publishers publishers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -253,6 +273,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181211112111'),
 ('20181211120554'),
 ('20181212180721'),
-('20181212183716');
+('20181212183716'),
+('20181212184614');
 
 
