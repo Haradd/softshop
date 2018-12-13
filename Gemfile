@@ -26,6 +26,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'dotenv-rails'
 gem 'composite_primary_keys', '=11.1.0'
+gem 'rubocop'
 
 
 group :development, :test do
@@ -33,6 +34,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
+  gem 'rubocop-rspec'
 end
 
 group :development do

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ProductTypesController < ApplicationController
-  before_action :set_product_type, only: [:show, :edit, :update, :destroy]
+  before_action :set_product_type, only: %i[show edit update destroy]
 
   # GET /product_types
   def index
@@ -46,13 +48,14 @@ class ProductTypesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product_type
-      @product_type = ProductType.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def product_type_params
-      params.require(:product_type).permit(:name, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_product_type
+    @product_type = ProductType.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def product_type_params
+    params.require(:product_type).permit(:name, :description)
+  end
 end
