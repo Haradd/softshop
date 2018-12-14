@@ -185,6 +185,38 @@ ALTER SEQUENCE public.wishlists_id_seq OWNED BY public.wishlists.id;
 
 
 --
+-- Name: wishlists_products; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.wishlists_products (
+    id bigint NOT NULL,
+    product_id bigint,
+    wishlist_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: wishlists_products_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.wishlists_products_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: wishlists_products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.wishlists_products_id_seq OWNED BY public.wishlists_products.id;
+
+
+--
 -- Name: customers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -203,6 +235,13 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 --
 
 ALTER TABLE ONLY public.wishlists ALTER COLUMN id SET DEFAULT nextval('public.wishlists_id_seq'::regclass);
+
+
+--
+-- Name: wishlists_products id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wishlists_products ALTER COLUMN id SET DEFAULT nextval('public.wishlists_products_id_seq'::regclass);
 
 
 --
@@ -270,6 +309,14 @@ ALTER TABLE ONLY public.wishlists
 
 
 --
+-- Name: wishlists_products wishlists_products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wishlists_products
+    ADD CONSTRAINT wishlists_products_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: index_cards_on_customer_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -312,11 +359,40 @@ CREATE INDEX index_wishlists_on_customer_id ON public.wishlists USING btree (cus
 
 
 --
+-- Name: index_wishlists_products_on_product_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_wishlists_products_on_product_id ON public.wishlists_products USING btree (product_id);
+
+
+--
+-- Name: index_wishlists_products_on_product_id_and_wishlist_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_wishlists_products_on_product_id_and_wishlist_id ON public.wishlists_products USING btree (product_id, wishlist_id);
+
+
+--
+-- Name: index_wishlists_products_on_wishlist_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_wishlists_products_on_wishlist_id ON public.wishlists_products USING btree (wishlist_id);
+
+
+--
 -- Name: wishlists fk_rails_18bd87f3b0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.wishlists
     ADD CONSTRAINT fk_rails_18bd87f3b0 FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
+-- Name: wishlists_products fk_rails_1cefaeac67; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wishlists_products
+    ADD CONSTRAINT fk_rails_1cefaeac67 FOREIGN KEY (wishlist_id) REFERENCES public.wishlists(id);
 
 
 --
@@ -333,6 +409,14 @@ ALTER TABLE ONLY public.products
 
 ALTER TABLE ONLY public.cards
     ADD CONSTRAINT fk_rails_778182f614 FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
+-- Name: wishlists_products fk_rails_87422b7658; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wishlists_products
+    ADD CONSTRAINT fk_rails_87422b7658 FOREIGN KEY (product_id) REFERENCES public.products(id);
 
 
 --
@@ -355,6 +439,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181212180721'),
 ('20181212183716'),
 ('20181212184614'),
-('20181213073323');
+('20181213073323'),
+('20181214200847');
 
 
