@@ -97,6 +97,41 @@ CREATE TABLE public.product_types (
 
 
 --
+-- Name: products; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.products (
+    id bigint NOT NULL,
+    name character varying(50) NOT NULL,
+    description text,
+    price numeric(15,2) NOT NULL,
+    product_type_name character varying NOT NULL,
+    publisher_name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.products_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
+
+
+--
 -- Name: publishers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -157,6 +192,13 @@ ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.cu
 
 
 --
+-- Name: products id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.products_id_seq'::regclass);
+
+
+--
 -- Name: wishlists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -193,6 +235,14 @@ ALTER TABLE ONLY public.customers
 
 ALTER TABLE ONLY public.product_types
     ADD CONSTRAINT product_types_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (id);
 
 
 --
@@ -241,6 +291,20 @@ CREATE INDEX index_customers_on_first_name_and_last_name ON public.customers USI
 
 
 --
+-- Name: index_products_on_product_type_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_products_on_product_type_name ON public.products USING btree (product_type_name);
+
+
+--
+-- Name: index_products_on_publisher_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_products_on_publisher_name ON public.products USING btree (publisher_name);
+
+
+--
 -- Name: index_wishlists_on_customer_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -256,11 +320,27 @@ ALTER TABLE ONLY public.wishlists
 
 
 --
+-- Name: products fk_rails_5d806bb18a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT fk_rails_5d806bb18a FOREIGN KEY (publisher_name) REFERENCES public.publishers(name);
+
+
+--
 -- Name: cards fk_rails_778182f614; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cards
     ADD CONSTRAINT fk_rails_778182f614 FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
+-- Name: products fk_rails_cc9ebd64b8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT fk_rails_cc9ebd64b8 FOREIGN KEY (product_type_name) REFERENCES public.product_types(name);
 
 
 --
@@ -274,6 +354,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181211120554'),
 ('20181212180721'),
 ('20181212183716'),
-('20181212184614');
+('20181212184614'),
+('20181213073323');
 
 
