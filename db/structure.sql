@@ -189,31 +189,12 @@ ALTER SEQUENCE public.wishlists_id_seq OWNED BY public.wishlists.id;
 --
 
 CREATE TABLE public.wishlists_products (
-    id bigint NOT NULL,
-    product_id bigint,
-    wishlist_id bigint,
+    "order" integer DEFAULT 0,
+    product_id bigint NOT NULL,
+    wishlist_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
-
-
---
--- Name: wishlists_products_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.wishlists_products_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: wishlists_products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.wishlists_products_id_seq OWNED BY public.wishlists_products.id;
 
 
 --
@@ -235,13 +216,6 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 --
 
 ALTER TABLE ONLY public.wishlists ALTER COLUMN id SET DEFAULT nextval('public.wishlists_id_seq'::regclass);
-
-
---
--- Name: wishlists_products id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.wishlists_products ALTER COLUMN id SET DEFAULT nextval('public.wishlists_products_id_seq'::regclass);
 
 
 --
@@ -313,7 +287,7 @@ ALTER TABLE ONLY public.wishlists
 --
 
 ALTER TABLE ONLY public.wishlists_products
-    ADD CONSTRAINT wishlists_products_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT wishlists_products_pkey PRIMARY KEY (wishlist_id, product_id);
 
 
 --
@@ -356,27 +330,6 @@ CREATE INDEX index_products_on_publisher_name ON public.products USING btree (pu
 --
 
 CREATE INDEX index_wishlists_on_customer_id ON public.wishlists USING btree (customer_id);
-
-
---
--- Name: index_wishlists_products_on_product_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_wishlists_products_on_product_id ON public.wishlists_products USING btree (product_id);
-
-
---
--- Name: index_wishlists_products_on_product_id_and_wishlist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_wishlists_products_on_product_id_and_wishlist_id ON public.wishlists_products USING btree (product_id, wishlist_id);
-
-
---
--- Name: index_wishlists_products_on_wishlist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_wishlists_products_on_wishlist_id ON public.wishlists_products USING btree (wishlist_id);
 
 
 --
@@ -440,6 +393,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181212183716'),
 ('20181212184614'),
 ('20181213073323'),
-('20181214200847');
+('20181214200084');
 
 

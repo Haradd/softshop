@@ -21,7 +21,6 @@ class ProductsController < ApplicationController
 
   # POST /products
   def create
-    binding.pry
     @product = Product.new(product_params)
 
     if @product.save
