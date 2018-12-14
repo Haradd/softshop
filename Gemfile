@@ -27,6 +27,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'dotenv-rails'
 gem 'composite_primary_keys', '=11.1.0'
 gem 'rubocop'
+gem 'simple_form'
+
 
 
 group :development, :test do
