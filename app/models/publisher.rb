@@ -2,6 +2,6 @@
 
 class Publisher < ApplicationRecord
   self.primary_key = :name
-  
-  has_many :products, foreign_key: :publisher_name, inverse_of: :publisher
+
+  has_many :products, foreign_key: :publisher_name, inverse_of: :publisher, dependent: :destroy
 end
