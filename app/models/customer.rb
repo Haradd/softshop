@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Customer < ApplicationRecord
-  has_many :cards
-  has_many :wishlists
+  has_many :cards, dependent: :destroy
+  has_many :wishlists, dependent: :destroy
+  has_many :orders, dependent: :destroy
 end
