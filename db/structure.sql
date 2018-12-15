@@ -269,6 +269,19 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: signups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.signups (
+    active boolean DEFAULT true NOT NULL,
+    customer_id bigint NOT NULL,
+    newsletter_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: wishlists; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -444,6 +457,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: signups signups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.signups
+    ADD CONSTRAINT signups_pkey PRIMARY KEY (customer_id, newsletter_id);
+
+
+--
 -- Name: wishlists wishlists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -586,6 +607,14 @@ ALTER TABLE ONLY public.products
 
 
 --
+-- Name: signups fk_rails_69b7d0deed; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.signups
+    ADD CONSTRAINT fk_rails_69b7d0deed FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
 -- Name: cards fk_rails_778182f614; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -607,6 +636,14 @@ ALTER TABLE ONLY public.orders
 
 ALTER TABLE ONLY public.wishlists_products
     ADD CONSTRAINT fk_rails_87422b7658 FOREIGN KEY (product_id) REFERENCES public.products(id);
+
+
+--
+-- Name: signups fk_rails_a5c416316b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.signups
+    ADD CONSTRAINT fk_rails_a5c416316b FOREIGN KEY (newsletter_id) REFERENCES public.newsletters(id);
 
 
 --
@@ -642,6 +679,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181214222713'),
 ('20181215120026'),
 ('20181215122448'),
-('20181215123903');
+('20181215123903'),
+('20181215151249');
 
 
