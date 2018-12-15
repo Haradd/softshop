@@ -85,6 +85,38 @@ ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
 
 
 --
+-- Name: mails; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.mails (
+    id bigint NOT NULL,
+    text text NOT NULL,
+    newsletter_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: mails_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.mails_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mails_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.mails_id_seq OWNED BY public.mails.id;
+
+
+--
 -- Name: newsletters; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -289,6 +321,13 @@ ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.cu
 
 
 --
+-- Name: mails id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mails ALTER COLUMN id SET DEFAULT nextval('public.mails_id_seq'::regclass);
+
+
+--
 -- Name: newsletters id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -338,6 +377,14 @@ ALTER TABLE ONLY public.cards
 
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mails mails_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mails
+    ADD CONSTRAINT mails_pkey PRIMARY KEY (id);
 
 
 --
@@ -434,6 +481,13 @@ CREATE INDEX index_customers_on_first_name_and_last_name ON public.customers USI
 
 
 --
+-- Name: index_mails_on_newsletter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_mails_on_newsletter_id ON public.mails USING btree (newsletter_id);
+
+
+--
 -- Name: index_newsletters_on_product_type_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -489,6 +543,14 @@ ALTER TABLE ONLY public.wishlists
 
 ALTER TABLE ONLY public.wishlists_products
     ADD CONSTRAINT fk_rails_1cefaeac67 FOREIGN KEY (wishlist_id) REFERENCES public.wishlists(id);
+
+
+--
+-- Name: mails fk_rails_2591d4984c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mails
+    ADD CONSTRAINT fk_rails_2591d4984c FOREIGN KEY (newsletter_id) REFERENCES public.newsletters(id);
 
 
 --
@@ -579,6 +641,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181214200084'),
 ('20181214222713'),
 ('20181215120026'),
-('20181215122448');
+('20181215122448'),
+('20181215123903');
 
 
