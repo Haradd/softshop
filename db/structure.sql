@@ -121,6 +121,22 @@ ALTER SEQUENCE public.orders_id_seq OWNED BY public.orders.id;
 
 
 --
+-- Name: orders_products; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.orders_products (
+    amount integer DEFAULT 1 NOT NULL,
+    price numeric(15,2) NOT NULL,
+    order_id bigint NOT NULL,
+    product_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    CONSTRAINT amount_is_positive CHECK ((amount > 0)),
+    CONSTRAINT price_is_positive CHECK ((price > (0)::numeric))
+);
+
+
+--
 -- Name: product_types; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -294,6 +310,14 @@ ALTER TABLE ONLY public.orders
 
 
 --
+-- Name: orders_products orders_products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders_products
+    ADD CONSTRAINT orders_products_pkey PRIMARY KEY (order_id, product_id);
+
+
+--
 -- Name: product_types product_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -414,6 +438,14 @@ ALTER TABLE ONLY public.wishlists_products
 
 
 --
+-- Name: orders_products fk_rails_35083423df; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders_products
+    ADD CONSTRAINT fk_rails_35083423df FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
 -- Name: orders fk_rails_3dad120da9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -462,6 +494,14 @@ ALTER TABLE ONLY public.products
 
 
 --
+-- Name: orders_products fk_rails_fc9f522293; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders_products
+    ADD CONSTRAINT fk_rails_fc9f522293 FOREIGN KEY (product_id) REFERENCES public.products(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -475,6 +515,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181212184614'),
 ('20181213073323'),
 ('20181214200084'),
-('20181214222713');
+('20181214222713'),
+('20181215120026');
 
 
