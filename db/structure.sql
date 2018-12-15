@@ -85,6 +85,38 @@ ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
 
 
 --
+-- Name: newsletters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.newsletters (
+    id bigint NOT NULL,
+    title character varying(200) NOT NULL,
+    product_type_name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: newsletters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.newsletters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: newsletters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.newsletters_id_seq OWNED BY public.newsletters.id;
+
+
+--
 -- Name: orders; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -257,6 +289,13 @@ ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.cu
 
 
 --
+-- Name: newsletters id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.newsletters ALTER COLUMN id SET DEFAULT nextval('public.newsletters_id_seq'::regclass);
+
+
+--
 -- Name: orders id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -299,6 +338,14 @@ ALTER TABLE ONLY public.cards
 
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: newsletters newsletters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.newsletters
+    ADD CONSTRAINT newsletters_pkey PRIMARY KEY (id);
 
 
 --
@@ -387,6 +434,13 @@ CREATE INDEX index_customers_on_first_name_and_last_name ON public.customers USI
 
 
 --
+-- Name: index_newsletters_on_product_type_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_newsletters_on_product_type_name ON public.newsletters USING btree (product_type_name);
+
+
+--
 -- Name: index_orders_on_card_number; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -443,6 +497,14 @@ ALTER TABLE ONLY public.wishlists_products
 
 ALTER TABLE ONLY public.orders_products
     ADD CONSTRAINT fk_rails_35083423df FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
+-- Name: newsletters fk_rails_364e4cf213; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.newsletters
+    ADD CONSTRAINT fk_rails_364e4cf213 FOREIGN KEY (product_type_name) REFERENCES public.product_types(name);
 
 
 --
@@ -516,6 +578,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181213073323'),
 ('20181214200084'),
 ('20181214222713'),
-('20181215120026');
+('20181215120026'),
+('20181215122448');
 
 
