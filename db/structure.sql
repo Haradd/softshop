@@ -85,6 +85,42 @@ ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
 
 
 --
+-- Name: orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.orders (
+    id bigint NOT NULL,
+    payment_date timestamp without time zone,
+    price numeric(15,2) NOT NULL,
+    status character varying NOT NULL,
+    customer_id bigint NOT NULL,
+    card_number character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    CONSTRAINT price_is_positive CHECK ((price > (0)::numeric))
+);
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.orders_id_seq OWNED BY public.orders.id;
+
+
+--
 -- Name: product_types; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -205,6 +241,13 @@ ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.cu
 
 
 --
+-- Name: orders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders ALTER COLUMN id SET DEFAULT nextval('public.orders_id_seq'::regclass);
+
+
+--
 -- Name: products id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -240,6 +283,14 @@ ALTER TABLE ONLY public.cards
 
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
 
 
 --
@@ -312,6 +363,20 @@ CREATE INDEX index_customers_on_first_name_and_last_name ON public.customers USI
 
 
 --
+-- Name: index_orders_on_card_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_card_number ON public.orders USING btree (card_number);
+
+
+--
+-- Name: index_orders_on_customer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_customer_id ON public.orders USING btree (customer_id);
+
+
+--
 -- Name: index_products_on_product_type_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -349,6 +414,14 @@ ALTER TABLE ONLY public.wishlists_products
 
 
 --
+-- Name: orders fk_rails_3dad120da9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_rails_3dad120da9 FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
 -- Name: products fk_rails_5d806bb18a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -362,6 +435,14 @@ ALTER TABLE ONLY public.products
 
 ALTER TABLE ONLY public.cards
     ADD CONSTRAINT fk_rails_778182f614 FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
+-- Name: orders fk_rails_7dd3fc0f20; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_rails_7dd3fc0f20 FOREIGN KEY (card_number) REFERENCES public.cards(number);
 
 
 --
@@ -393,6 +474,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181212183716'),
 ('20181212184614'),
 ('20181213073323'),
-('20181214200084');
+('20181214200084'),
+('20181214222713');
 
 
