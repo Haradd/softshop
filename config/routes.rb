@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :mails
   resources :newsletters
   resources :orders_products
   resources :orders
