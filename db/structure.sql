@@ -22,6 +22,18 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: unsubscribe_customer_from_newsletter(bigint, bigint); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.unsubscribe_customer_from_newsletter(_customer_id bigint, _newsletter_id bigint) RETURNS void
+    LANGUAGE sql
+    AS $$
+          UPDATE signups SET active = FALSE
+            WHERE customer_id = _customer_id AND newsletter_id = _newsletter_id
+          $$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -680,6 +692,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181215120026'),
 ('20181215122448'),
 ('20181215123903'),
-('20181215151249');
+('20181215151249'),
+('20181219080540');
 
 
