@@ -23,6 +23,22 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: calculate_customers_expenses(bigint); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.calculate_customers_expenses(_customer_id bigint) RETURNS numeric
+    LANGUAGE sql
+    AS $$
+          SELECT SUM(sum_price) FROM (
+            SELECT sum_price FROM orders JOIN (
+                SELECT SUM(price) AS sum_price, order_id FROM orders_products GROUP BY order_id
+                ) AS op ON orders.id = op.order_id
+            WHERE orders.customer_id = _customer_id
+          ) as o
+          $$;
+
+
+--
 -- Name: unsubscribe_customer_from_newsletter(bigint, bigint); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -693,6 +709,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181215122448'),
 ('20181215123903'),
 ('20181215151249'),
-('20181219080540');
+('20181219080540'),
+('20181219133332');
 
 
