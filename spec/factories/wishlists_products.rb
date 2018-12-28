@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :wishlists_product do
-    product { nil }
-    wishlist { nil }
+    order { 1 }
+    product { "" }
+    wishlist { "" }
   end
 end

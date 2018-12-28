@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :signups
+  resources :mails
+  resources :newsletters
+  resources :orders_products
+  resources :orders
   resources :wishlists_products
   resources :products
   resources :product_types

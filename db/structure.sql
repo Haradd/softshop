@@ -22,6 +22,34 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: calculate_customers_expenses(bigint); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.calculate_customers_expenses(_customer_id bigint) RETURNS numeric
+    LANGUAGE sql
+    AS $$
+          SELECT SUM(sum_price) FROM (
+            SELECT sum_price FROM orders JOIN (
+                SELECT SUM(price) AS sum_price, order_id FROM orders_products GROUP BY order_id
+                ) AS op ON orders.id = op.order_id
+            WHERE orders.customer_id = _customer_id
+          ) as o
+          $$;
+
+
+--
+-- Name: unsubscribe_customer_from_newsletter(bigint, bigint); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.unsubscribe_customer_from_newsletter(_customer_id bigint, _newsletter_id bigint) RETURNS void
+    LANGUAGE sql
+    AS $$
+          UPDATE signups SET active = FALSE
+            WHERE customer_id = _customer_id AND newsletter_id = _newsletter_id
+          $$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -82,6 +110,122 @@ CREATE SEQUENCE public.customers_id_seq
 --
 
 ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
+
+
+--
+-- Name: mails; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.mails (
+    id bigint NOT NULL,
+    text text NOT NULL,
+    newsletter_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: mails_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.mails_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mails_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.mails_id_seq OWNED BY public.mails.id;
+
+
+--
+-- Name: newsletters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.newsletters (
+    id bigint NOT NULL,
+    title character varying(200) NOT NULL,
+    product_type_name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: newsletters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.newsletters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: newsletters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.newsletters_id_seq OWNED BY public.newsletters.id;
+
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.orders (
+    id bigint NOT NULL,
+    payment_date timestamp without time zone,
+    price numeric(15,2) NOT NULL,
+    status character varying NOT NULL,
+    customer_id bigint NOT NULL,
+    card_number character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    CONSTRAINT price_is_positive CHECK ((price > (0)::numeric))
+);
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.orders_id_seq OWNED BY public.orders.id;
+
+
+--
+-- Name: orders_products; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.orders_products (
+    amount integer DEFAULT 1 NOT NULL,
+    price numeric(15,2) NOT NULL,
+    order_id bigint NOT NULL,
+    product_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    CONSTRAINT amount_is_positive CHECK ((amount > 0)),
+    CONSTRAINT price_is_positive CHECK ((price > (0)::numeric))
+);
 
 
 --
@@ -153,6 +297,19 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: signups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.signups (
+    active boolean DEFAULT true NOT NULL,
+    customer_id bigint NOT NULL,
+    newsletter_id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: wishlists; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -189,31 +346,12 @@ ALTER SEQUENCE public.wishlists_id_seq OWNED BY public.wishlists.id;
 --
 
 CREATE TABLE public.wishlists_products (
-    id bigint NOT NULL,
-    product_id bigint,
-    wishlist_id bigint,
+    "order" integer DEFAULT 0,
+    product_id bigint NOT NULL,
+    wishlist_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
-
-
---
--- Name: wishlists_products_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.wishlists_products_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: wishlists_products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.wishlists_products_id_seq OWNED BY public.wishlists_products.id;
 
 
 --
@@ -221,6 +359,27 @@ ALTER SEQUENCE public.wishlists_products_id_seq OWNED BY public.wishlists_produc
 --
 
 ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.customers_id_seq'::regclass);
+
+
+--
+-- Name: mails id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mails ALTER COLUMN id SET DEFAULT nextval('public.mails_id_seq'::regclass);
+
+
+--
+-- Name: newsletters id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.newsletters ALTER COLUMN id SET DEFAULT nextval('public.newsletters_id_seq'::regclass);
+
+
+--
+-- Name: orders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders ALTER COLUMN id SET DEFAULT nextval('public.orders_id_seq'::regclass);
 
 
 --
@@ -235,13 +394,6 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 --
 
 ALTER TABLE ONLY public.wishlists ALTER COLUMN id SET DEFAULT nextval('public.wishlists_id_seq'::regclass);
-
-
---
--- Name: wishlists_products id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.wishlists_products ALTER COLUMN id SET DEFAULT nextval('public.wishlists_products_id_seq'::regclass);
 
 
 --
@@ -266,6 +418,38 @@ ALTER TABLE ONLY public.cards
 
 ALTER TABLE ONLY public.customers
     ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mails mails_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mails
+    ADD CONSTRAINT mails_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: newsletters newsletters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.newsletters
+    ADD CONSTRAINT newsletters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders_products orders_products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders_products
+    ADD CONSTRAINT orders_products_pkey PRIMARY KEY (order_id, product_id);
 
 
 --
@@ -301,6 +485,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: signups signups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.signups
+    ADD CONSTRAINT signups_pkey PRIMARY KEY (customer_id, newsletter_id);
+
+
+--
 -- Name: wishlists wishlists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -313,7 +505,7 @@ ALTER TABLE ONLY public.wishlists
 --
 
 ALTER TABLE ONLY public.wishlists_products
-    ADD CONSTRAINT wishlists_products_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT wishlists_products_pkey PRIMARY KEY (wishlist_id, product_id);
 
 
 --
@@ -338,6 +530,34 @@ CREATE INDEX index_customers_on_first_name_and_last_name ON public.customers USI
 
 
 --
+-- Name: index_mails_on_newsletter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_mails_on_newsletter_id ON public.mails USING btree (newsletter_id);
+
+
+--
+-- Name: index_newsletters_on_product_type_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_newsletters_on_product_type_name ON public.newsletters USING btree (product_type_name);
+
+
+--
+-- Name: index_orders_on_card_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_card_number ON public.orders USING btree (card_number);
+
+
+--
+-- Name: index_orders_on_customer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_customer_id ON public.orders USING btree (customer_id);
+
+
+--
 -- Name: index_products_on_product_type_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -359,27 +579,6 @@ CREATE INDEX index_wishlists_on_customer_id ON public.wishlists USING btree (cus
 
 
 --
--- Name: index_wishlists_products_on_product_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_wishlists_products_on_product_id ON public.wishlists_products USING btree (product_id);
-
-
---
--- Name: index_wishlists_products_on_product_id_and_wishlist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_wishlists_products_on_product_id_and_wishlist_id ON public.wishlists_products USING btree (product_id, wishlist_id);
-
-
---
--- Name: index_wishlists_products_on_wishlist_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_wishlists_products_on_wishlist_id ON public.wishlists_products USING btree (wishlist_id);
-
-
---
 -- Name: wishlists fk_rails_18bd87f3b0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -396,11 +595,51 @@ ALTER TABLE ONLY public.wishlists_products
 
 
 --
+-- Name: mails fk_rails_2591d4984c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mails
+    ADD CONSTRAINT fk_rails_2591d4984c FOREIGN KEY (newsletter_id) REFERENCES public.newsletters(id);
+
+
+--
+-- Name: orders_products fk_rails_35083423df; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders_products
+    ADD CONSTRAINT fk_rails_35083423df FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
+-- Name: newsletters fk_rails_364e4cf213; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.newsletters
+    ADD CONSTRAINT fk_rails_364e4cf213 FOREIGN KEY (product_type_name) REFERENCES public.product_types(name);
+
+
+--
+-- Name: orders fk_rails_3dad120da9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_rails_3dad120da9 FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
 -- Name: products fk_rails_5d806bb18a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.products
     ADD CONSTRAINT fk_rails_5d806bb18a FOREIGN KEY (publisher_name) REFERENCES public.publishers(name);
+
+
+--
+-- Name: signups fk_rails_69b7d0deed; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.signups
+    ADD CONSTRAINT fk_rails_69b7d0deed FOREIGN KEY (customer_id) REFERENCES public.customers(id);
 
 
 --
@@ -412,6 +651,14 @@ ALTER TABLE ONLY public.cards
 
 
 --
+-- Name: orders fk_rails_7dd3fc0f20; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_rails_7dd3fc0f20 FOREIGN KEY (card_number) REFERENCES public.cards(number);
+
+
+--
 -- Name: wishlists_products fk_rails_87422b7658; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -420,11 +667,27 @@ ALTER TABLE ONLY public.wishlists_products
 
 
 --
+-- Name: signups fk_rails_a5c416316b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.signups
+    ADD CONSTRAINT fk_rails_a5c416316b FOREIGN KEY (newsletter_id) REFERENCES public.newsletters(id);
+
+
+--
 -- Name: products fk_rails_cc9ebd64b8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.products
     ADD CONSTRAINT fk_rails_cc9ebd64b8 FOREIGN KEY (product_type_name) REFERENCES public.product_types(name);
+
+
+--
+-- Name: orders_products fk_rails_fc9f522293; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders_products
+    ADD CONSTRAINT fk_rails_fc9f522293 FOREIGN KEY (product_id) REFERENCES public.products(id);
 
 
 --
@@ -440,6 +703,13 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181212183716'),
 ('20181212184614'),
 ('20181213073323'),
-('20181214200847');
+('20181214200084'),
+('20181214222713'),
+('20181215120026'),
+('20181215122448'),
+('20181215123903'),
+('20181215151249'),
+('20181219080540'),
+('20181219133332');
 
 

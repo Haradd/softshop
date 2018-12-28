@@ -6,4 +6,7 @@ class Product < ApplicationRecord
 
   has_many :wishlist_products, dependent: :destroy
   has_many :wishlists, through: :wishlist_products
+
+  has_many :orders_products, dependent: :destroy
+  has_many :orders, through: :orders_products
 end
