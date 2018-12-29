@@ -12,4 +12,8 @@ class Customer < ApplicationRecord
   validates :last_name, presence: true, length: { maximum: 30 }
   validates :email, presence: true, length: { maximum: 30 }, uniqueness: true
   validates :phone_number, presence: true, length: { in: 9..15 }
+
+  def to_s
+    self.first_name + ' ' + self.last_name
+  end
 end
