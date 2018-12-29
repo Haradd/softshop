@@ -29,6 +29,11 @@ gem 'composite_primary_keys', '=11.1.0'
 gem 'rubocop'
 gem 'simple_form'
 
+gem 'bootstrap-sass', '~> 3.4.0'
+gem 'sassc-rails', '>= 2.0.0'
+gem 'jquery-rails'
+
+
 
 
 group :development, :test do
