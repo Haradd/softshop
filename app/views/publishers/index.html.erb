@@ -2,11 +2,13 @@
 
 <h1>Publishers</h1>
 
+<%= render 'ransack/search_form' %>
+
 <table class="table table-striped" >
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Description</th>
+      <th><%= sort_link(@search, :name, "Name") %></th>
+      <th><%= sort_link(@search, :description, "Description") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
