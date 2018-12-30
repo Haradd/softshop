@@ -3,7 +3,9 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @orders = Order.all
+    @search = Order.search(params[:q])
+    @orders = @search.result(distinct: true)
+    @search.build_condition
   end
 
   # GET /orders/1
