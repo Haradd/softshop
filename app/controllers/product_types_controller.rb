@@ -5,7 +5,9 @@ class ProductTypesController < ApplicationController
 
   # GET /product_types
   def index
-    @product_types = ProductType.all
+    @search = ProductType.search(params[:q])
+    @product_types = @search.result(distinct: true)
+    @search.build_condition
   end
 
   # GET /product_types/1
