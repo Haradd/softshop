@@ -6,4 +6,13 @@ class Order < ApplicationRecord
 
   has_many :orders_products, dependent: :destroy
   has_many :products, through: :orders_products
+
+  validates :price, presence: true, numericality: { greater_than: 0, less_than: 9_999_999_999_999.99 }
+  validates :status, presence: true
+  validates :customer, presence: true
+  validates :card, presence: true
+
+  def to_s
+    id.to_s
+  end
 end
