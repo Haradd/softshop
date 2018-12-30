@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 class CardsController < ApplicationController
-  before_action :set_card, only: [:show, :edit, :update, :destroy]
+  before_action :set_card, only: %i[show edit update destroy]
 
   # GET /cards
   def index
-    @cards = Card.all
+    @search = Card.search(params[:q])
+    @cards = @search.result(distinct: true)
+    @search.build_condition
   end
 
   # GET /cards/1
@@ -46,13 +50,14 @@ class CardsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_card
-      @card = Card.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def card_params
-      params.require(:card).permit(:number, :customer_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_card
+    @card = Card.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def card_params
+    params.require(:card).permit(:number, :customer_id)
+  end
 end
