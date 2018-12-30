@@ -9,4 +9,13 @@ class Product < ApplicationRecord
 
   has_many :orders_products, dependent: :destroy
   has_many :orders, through: :orders_products
+
+  validates :name, presence: true, uniqueness: true, length: { maximum: 50 }
+  validates :price, presence: true, numericality: { greater_than: 0, less_than: 9_999_999_999_999.99 }
+  validates :product_type, presence: true
+  validates :publisher, presence: true
+
+  def to_s
+    name
+  end
 end
