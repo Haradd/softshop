@@ -5,7 +5,9 @@ class CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @customers = Customer.all
+    @search = Customer.search(params[:q])
+    @customers = @search.result(distinct: true)
+    @search.build_condition
   end
 
   # GET /customers/1
