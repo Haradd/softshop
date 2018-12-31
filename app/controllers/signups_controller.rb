@@ -3,7 +3,9 @@ class SignupsController < ApplicationController
 
   # GET /signups
   def index
-    @signups = Signup.all
+    @search = Signup.search(params[:q])
+    @signups = @search.result(distinct: true)
+    @search.build_condition
   end
 
   # GET /signups/1
