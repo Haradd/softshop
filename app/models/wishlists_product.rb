@@ -5,4 +5,8 @@ class WishlistsProduct < ApplicationRecord
 
   belongs_to :product
   belongs_to :wishlist
+
+  validates :order, numericality: { less_than: 999 }
+  validates :product, presence: true
+  validates :wishlist, presence: true
 end
