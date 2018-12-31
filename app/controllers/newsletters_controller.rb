@@ -3,7 +3,9 @@ class NewslettersController < ApplicationController
 
   # GET /newsletters
   def index
-    @newsletters = Newsletter.all
+    @search = Newsletter.search(params[:q])
+    @newsletters = @search.result(distinct: true)
+    @search.build_condition
   end
 
   # GET /newsletters/1
