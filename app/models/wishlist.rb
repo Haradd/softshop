@@ -8,4 +8,8 @@ class Wishlist < ApplicationRecord
 
   validates :name, presence: true
   validates :customer, presence: true
+
+  def to_s
+    name + ' id: ' + id.to_s
+  end
 end
