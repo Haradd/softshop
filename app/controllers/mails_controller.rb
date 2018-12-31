@@ -5,7 +5,9 @@ class MailsController < ApplicationController
 
   # GET /mails
   def index
-    @mails = Mail.all
+    @search = Mail.search(params[:q])
+    @mails = @search.result(distinct: true)
+    @search.build_condition
   end
 
   # GET /mails/1
