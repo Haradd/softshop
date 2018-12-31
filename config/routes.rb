@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   root to: 'home#index'
-  resources :signups
+  resources :signups do
+    member do
+      patch :unsubscribe
+      patch :subscribe
+    end
+  end
   resources :mails
   resources :newsletters
   resources :orders_products

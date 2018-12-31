@@ -1,5 +1,5 @@
 class SignupsController < ApplicationController
-  before_action :set_signup, only: [:show, :edit, :update, :destroy]
+  before_action :set_signup, only: [:show, :edit, :update, :destroy, :unsubscribe, :subscribe]
 
   # GET /signups
   def index
@@ -38,6 +38,26 @@ class SignupsController < ApplicationController
       redirect_to @signup, notice: 'Signup was successfully updated.'
     else
       render :edit
+    end
+  end
+
+  # PATCH
+  def unsubscribe
+    query = "SELECT * FROM unsubscribe_customer_from_newsletter(#{@signup.customer_id}, #{@signup.newsletter_id})"
+    result = ActiveRecord::Base.connection.execute(query)
+    if result.error_message.empty?
+      redirect_to signups_url, notice: 'Successfully unsubscribed.'
+    else
+      redirect_to signups_url, notice: "Unsubscribing failed.\n #{result.error_message}."
+    end
+  end
+
+  # PATCH
+  def subscribe
+    if @signup.update(active: true)
+      redirect_to signups_url, notice: 'Signup was successfully updated.'
+    else
+      redirect_to signups_url, notice: "Subscribing failed.\n #{@signup.errors.messsages}"
     end
   end
 
