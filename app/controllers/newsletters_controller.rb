@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewslettersController < ApplicationController
   before_action :set_newsletter, only: [:show, :edit, :update, :destroy]
 

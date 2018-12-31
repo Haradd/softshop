@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MailsController < ApplicationController
   before_action :set_mail, only: [:show, :edit, :update, :destroy]
 
