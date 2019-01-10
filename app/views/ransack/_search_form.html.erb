@@ -1,4 +1,11 @@
-<%= search_form_for @search do |f| %>
+
+<% if flash[:search_error] %>
+  <div class="alert alert-danger">
+    <%= flash[:search_error] %>
+  </div>
+<% end %>
+
+<%= search_form_for @search, url: '' do |f| %>
   <%= f.condition_fields do |c| %>
   <div class="field">
     <%= c.attribute_fields do |a| %>
