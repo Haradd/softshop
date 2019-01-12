@@ -5,9 +5,9 @@ class CardsController < ApplicationController
 
   # GET /cards
   def index
-    @search = Card.search(params[:q])
-    @cards = @search.result(distinct: true)
-    @search.build_condition
+    @search_cards = Card.search(params[:q_card], search_key: :q_card)
+    @cards = @search_cards.result(distinct: true)
+    @search_cards.build_condition
   end
 
   # GET /cards/1

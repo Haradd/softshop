@@ -13,7 +13,14 @@ class Customer < ApplicationRecord
   validates :email, presence: true, length: { maximum: 30 }, uniqueness: true
   validates :phone_number, presence: true, length: { in: 9..15 }
 
+
+  def expenses
+    function_call = "SELECT calculate_customers_expenses(#{id});"
+    result_rows = ActiveRecord::Base.connection.execute function_call
+    result_rows.first["calculate_customers_expenses"]
+  end
+
   def to_s
-    self.first_name + ' ' + self.last_name
+    email
   end
 end

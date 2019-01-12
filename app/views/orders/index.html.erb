@@ -2,23 +2,20 @@
 
 <h1>Orders</h1>
 
-<%= render 'ransack/search_form', search: @search %>
-
-
+<%= render 'ransack/search_form', search: @search_orders, search_key: :q_order %>
 
 <table class="table table-striped" >
   <thead>
     <tr>
-      <th><%= sort_link(@search, :created_at, "Date") %></th>
-      <th><%= sort_link(@search, :payment_date, "Payment date") %></th>
-      <th><%= sort_link(@search, :price, "Price") %></th>
-      <th><%= sort_link(@search, :status, "Status") %></th>
-      <th><%= sort_link(@search, :customer, "Customer") %></th>
-      <th><%= sort_link(@search, :card, "Card") %></th>
+      <th><%= sort_link(@search_orders, :created_at, "Date") %></th>
+      <th><%= sort_link(@search_orders, :payment_date, "Payment date") %></th>
+      <th><%= sort_link(@search_orders, :price, "Price") %></th>
+      <th><%= sort_link(@search_orders, :status, "Status") %></th>
+      <th><%= sort_link(@search_orders, :customer, "Customer") %></th>
+      <th><%= sort_link(@search_orders, :card, "Card") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
-
   <tbody>
     <% @orders.each do |order| %>
       <tr>
@@ -35,6 +32,8 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @orders, param_name: :orders_name %>
 
 <br>
 

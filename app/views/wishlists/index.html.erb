@@ -2,14 +2,14 @@
 
 <h1>Wishlists</h1>
 
-<%= render 'ransack/search_form', search: @search %>
+<%= render partial: 'ransack/search_form', locals: {search: @search_wishlists, search_key: :q_wishlist} %>
 
 
 <table class="table table-striped" >
   <thead>
     <tr>
-      <th><%= sort_link(@search, :name, "Name") %></th>
-      <th><%= sort_link(@search, :customer, "Customer") %></th>
+      <th><%= sort_link(@search_wishlists, :name, "Name") %></th>
+      <th><%= sort_link(@search_wishlists, :customer, "Customer") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>

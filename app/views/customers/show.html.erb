@@ -20,5 +20,11 @@
   <%= @customer.phone_number %>
 </p>
 
+<%= render file: 'orders/index.html.erb', orders: @orders %>
+<%= render file: 'cards/index.html.erb', cards: @cards %>
+<%= render file: 'wishlists/index.html.erb', wishlists: @wishlists %>
+
+
+
 <%= link_to 'Edit', edit_customer_path(@customer) %> |
 <%= link_to 'Back', customers_path %>

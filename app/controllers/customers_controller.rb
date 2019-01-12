@@ -5,13 +5,24 @@ class CustomersController < ApplicationController
 
   # GET /customers
   def index
-    @search = Customer.search(params[:q])
-    @customers = @search.result(distinct: true)
-    @search.build_condition
+    @search_customer = Customer.search(params[:q_customer], search_key: :q_customer)
+    @customers = @search_customer.result(distinct: true).page(params[:page]).per(PAGE)
+    @search_customer.build_condition
   end
 
   # GET /customers/1
   def show
+    @search_orders = @customer.orders.search(params[:q_order], search_key: :q_order)
+    @orders = @search_orders.result(distinct: true).page(params[:orders_page]).per(PAGE)
+    @search_orders.build_condition
+
+    @search_wishlists = @customer.wishlists.search(params[:q_wishlist], search_key: :q_wishlist)
+    @wishlists = @search_wishlists.result(distinct: true).page(params[:wishlists_page]).per(PAGE)
+    @search_wishlists.build_condition
+
+    @search_cards = @customer.cards.search(params[:q_card], search_key: :q_card)
+    @cards = @search_cards.result(distinct: true).page(params[:cards_page]).per(PAGE)
+    @search_cards.build_condition
   end
 
   # GET /customers/new

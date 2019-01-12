@@ -3,16 +3,16 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @search = Order.search(params[:q])
-    @orders = @search.result(distinct: true)
-    @search.build_condition
+    @search_orders = Order.search(params[:q_order], search_key: :q_order)
+    @orders = @search_orders.result(distinct: true).page(params[:page]).per(PAGE)
+    @search_orders.build_condition
   end
 
   # GET /orders/1
   def show
-    @search = @order.products.search(params[:q])
-    @products = @search.result(distinct: true)
-    @search.build_condition
+    @search_orders = @order.products.search(params[:q])
+    @products = @search_orders.result(distinct: true)
+    @search_orders.build_condition
   end
 
   # GET /orders/new

@@ -5,7 +5,7 @@
   </div>
 <% end %>
 
-<%= search_form_for @search, url: '' do |f| %>
+<%= search_form_for search, url: '', as: search_key do |f| %>
   <%= f.condition_fields do |c| %>
   <div class="field">
     <%= c.attribute_fields do |a| %>
