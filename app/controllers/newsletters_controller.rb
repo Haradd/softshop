@@ -64,6 +64,6 @@ class NewslettersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def newsletter_params
-      params.require(:newsletter).permit(:title, :mail_type_name)
+      params.require(:newsletter).permit(:title, :product_type_name)
     end
 end
