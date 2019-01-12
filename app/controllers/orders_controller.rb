@@ -10,9 +10,9 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    @search_orders = @order.products.search(params[:q])
-    @products = @search_orders.result(distinct: true)
-    @search_orders.build_condition
+    @search_products = @order.products.search(params[:q_product], search_key: :q_product)
+    @products = @search_products.result(distinct: true)
+    @search_products.build_condition
   end
 
   # GET /orders/new
