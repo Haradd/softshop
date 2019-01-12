@@ -10,5 +10,7 @@
   <%= @publisher.description %>
 </p>
 
+<%= render file: 'products/index.html.erb', products: @products %>
+
 <%= link_to 'Edit', edit_publisher_path(@publisher) %> |
 <%= link_to 'Back', publishers_path %>

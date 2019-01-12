@@ -5,13 +5,16 @@ class PublishersController < ApplicationController
 
   # GET /publishers
   def index
-    @search = Publisher.search(params[:q])
-    @publishers = @search.result(distinct: true)
-    @search.build_condition
+    @search_publishers = Publisher.search(params[:q_publisher], search_key: :q_publisher)
+    @publishers = @search_publishers.result(distinct: true)
+    @search_publishers.build_condition
   end
 
   # GET /publishers/1
   def show
+    @search_products = @publisher.products.search(params[:q_product], search_key: :q_product)
+    @products = @search_products.result(distinct: true)
+    @search_products.build_condition
   end
 
   # GET /publishers/new
