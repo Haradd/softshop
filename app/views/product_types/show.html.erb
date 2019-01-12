@@ -19,5 +19,5 @@
 <%= render file: 'products/index.html.erb', products: @products %>
 
 
-<%= link_to 'Edit', edit_product_type_path(@product_type) %> |
+<%= link_to 'Edit', edit_product_type_path(@product_type), class: 'btn btn-default' %> <br> <br>
 <%= link_to 'Back', product_types_path, class: 'btn btn-info' %>

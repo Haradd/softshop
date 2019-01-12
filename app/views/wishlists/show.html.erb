@@ -12,5 +12,5 @@
 
 <%= render file: 'products/index.html.erb', products: @products %>
 
-<%= link_to 'Edit', edit_wishlist_path(@wishlist) %> |
+<%= link_to 'Edit', edit_wishlist_path(@wishlist), class: 'btn btn-default' %> <br> <br>
 <%= link_to 'Back', wishlists_path, class: 'btn btn-info' %>

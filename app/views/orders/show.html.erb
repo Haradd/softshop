@@ -32,5 +32,5 @@
 
 <%= render file: 'products/index.html.erb', products: @products %>
 
-<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Edit', edit_order_path(@order), class: 'btn btn-default' %> <br> <br>
 <%= link_to 'Back', orders_path, class: 'btn btn-info' %>

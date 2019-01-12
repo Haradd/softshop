@@ -15,5 +15,5 @@
 <%= render file: 'mails/index.html.erb', mails: @mails %>
 
 
-<%= link_to 'Edit', edit_newsletter_path(@newsletter) %> |
+<%= link_to 'Edit', edit_newsletter_path(@newsletter), class: 'btn btn-default' %> <br> <br>
 <%= link_to 'Back', newsletters_path, class: 'btn btn-info' %>
