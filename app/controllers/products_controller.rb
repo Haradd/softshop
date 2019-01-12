@@ -3,13 +3,20 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @search = Product.search(params[:q])
+    @search = Product.search(params[:q_product], search_key: :q_product)
     @products = @search.result(distinct: true)
     @search.build_condition
   end
 
   # GET /products/1
   def show
+    @search_orders = @product.orders.search(params[:q_order], search_key: :q_order)
+    @orders = @search_orders.result(distinct: true).page(params[:orders_page]).per(PAGE)
+    @search_orders.build_condition
+
+    @search_wishlists = @product.wishlists.search(params[:q_wishlist], search_key: :q_wishlist)
+    @wishlists = @search_wishlists.result(distinct: true).page(params[:wishlists_page]).per(PAGE)
+    @search_wishlists.build_condition
   end
 
   # GET /products/new

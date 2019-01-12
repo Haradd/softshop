@@ -25,5 +25,9 @@
   <%= @product.publisher %>
 </p>
 
+<%= render file: 'orders/index.html.erb', orders: @orders %>
+<%= render file: 'wishlists/index.html.erb', wishlists: @wishlists %>
+
+
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>
