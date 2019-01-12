@@ -26,6 +26,8 @@
   </tbody>
 </table>
 
+<%= paginate @cards, param_name: :cards_page %>
+
 <br>
 
 <%= link_to 'New Card', new_card_path %>

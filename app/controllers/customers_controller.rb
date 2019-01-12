@@ -6,7 +6,7 @@ class CustomersController < ApplicationController
   # GET /customers
   def index
     @search_customers = Customer.search(params[:q_customer], search_key: :q_customer)
-    @customers = @search_customers.result(distinct: true).page(params[:page]).per(PAGE)
+    @customers = @search_customers.result(distinct: true).page(params[:customers_page]).per(PAGE)
     @search_customers.build_condition
   end
 

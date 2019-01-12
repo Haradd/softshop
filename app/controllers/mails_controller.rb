@@ -6,7 +6,7 @@ class MailsController < ApplicationController
   # GET /mails
   def index
     @search = Mail.search(params[:q])
-    @mails = @search.result(distinct: true)
+    @mails = @search.result(distinct: true).page(params[:mails_page]).per(PAGE)
     @search.build_condition
   end
 

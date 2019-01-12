@@ -6,14 +6,14 @@ class WishlistsController < ApplicationController
   # GET /wishlists
   def index
     @search_wishlists = Wishlist.search(params[:q_wishlist], search_key: :q_wishlist)
-    @wishlists = @search_wishlists.result(distinct: true)
+    @wishlists = @search_wishlists.result(distinct: true).page(params[:wishlists_page]).per(PAGE)
     @search_wishlists.build_condition
   end
 
   # GET /wishlists/1
   def show
     @search_products = @wishlist.products.search(params[:q_product], search_key: :q_product)
-    @products = @search_products.result(distinct: true)
+    @products = @search_products.result(distinct: true).page(params[:products_page]).per(PAGE)
     @search_products.build_condition
   end
 

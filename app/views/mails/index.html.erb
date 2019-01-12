@@ -26,6 +26,8 @@
   </tbody>
 </table>
 
+<%= paginate @mails, param_name: :mails_page %>
+
 <br>
 
 <%= link_to 'New Mail', new_mail_path %>

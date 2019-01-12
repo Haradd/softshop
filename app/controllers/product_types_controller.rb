@@ -6,14 +6,14 @@ class ProductTypesController < ApplicationController
   # GET /product_types
   def index
     @search_product_types = ProductType.search(params[:q_product_type], search_key: :q_product_type)
-    @product_types = @search_product_types.result(distinct: true)
+    @product_types = @search_product_types.result(distinct: true).page(params[:product_types_page]).per(PAGE)
     @search_product_types.build_condition
   end
 
   # GET /product_types/1
   def show
     @search_products = @product_type.products.ransack(params[:q_product], search_key: :q_product)
-    @products = @search_products.result(distinct: true)
+    @products = @search_products.result(distinct: true).page(params[:products_page]).per(PAGE)
     @search_products.build_condition
   end
 

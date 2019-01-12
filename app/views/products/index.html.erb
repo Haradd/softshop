@@ -2,16 +2,16 @@
 
 <h1>Products</h1>
 
-<%= render 'ransack/search_form', search: @search_products, search_key: :q_product %>
+<%= render 'ransack/search_form', search: @search_product, search_key: :q_product %>
 
 <table class="table table-striped" >
   <thead>
     <tr>
-      <th><%= sort_link(@search_products, :name, "Name") %></th>
-      <th><%= sort_link(@search_products, :description, "Description") %></th>
-      <th><%= sort_link(@search_products, :price, "Price") %></th>
-      <th><%= sort_link(@search_products, :product_type, "Product type") %></th>
-      <th><%= sort_link(@search_products, :publisher, "Publisher") %></th>
+      <th><%= sort_link(@search_product, :name, "Name") %></th>
+      <th><%= sort_link(@search_product, :description, "Description") %></th>
+      <th><%= sort_link(@search_product, :price, "Price") %></th>
+      <th><%= sort_link(@search_product, :product_type, "Product type") %></th>
+      <th><%= sort_link(@search_product, :publisher, "Publisher") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -31,6 +31,8 @@
     <% end %>
   </tbody>
 </table>
+<%= paginate @products, param_name: :products_page %>
+
 
 <br>
 

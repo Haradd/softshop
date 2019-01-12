@@ -6,7 +6,7 @@ class CardsController < ApplicationController
   # GET /cards
   def index
     @search_cards = Card.search(params[:q_card], search_key: :q_card)
-    @cards = @search_cards.result(distinct: true)
+    @cards = @search_cards.result(distinct: true).page(params[:cards_page]).per(PAGE)
     @search_cards.build_condition
   end
 

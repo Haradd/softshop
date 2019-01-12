@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   # GET /products
   def index
     @search = Product.search(params[:q_product], search_key: :q_product)
-    @products = @search.result(distinct: true)
+    @products = @search.result(distinct: true).page(params[:products_page]).per(PAGE)
     @search.build_condition
   end
 

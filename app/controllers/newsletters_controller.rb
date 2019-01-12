@@ -6,18 +6,18 @@ class NewslettersController < ApplicationController
   # GET /newsletters
   def index
     @search_newsletters = Newsletter.search(params[:q])
-    @newsletters = @search_newsletters.result(distinct: true)
+    @newsletters = @search_newsletters.result(distinct: true).page(params[:newsletters_page]).per(PAGE)
     @search_newsletters.build_condition
   end
 
   # GET /newsletters/1
   def show
     @search_customers = @newsletter.customers.search(params[:q_customer], search_key: :q_customer)
-    @customers = @search_customers.result(distinct: true)
+    @customers = @search_customers.result(distinct: true).page(params[:customers_page]).per(PAGE)
     @search_customers.build_condition
 
     @search_mails = @newsletter.mails.search(params[:q_mail], search_key: :q_mail)
-    @mails = @search_mails.result(distinct: true)
+    @mails = @search_mails.result(distinct: true).page(params[:mails_page]).per(PAGE)
     @search_mails.build_condition
   end
 
