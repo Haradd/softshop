@@ -4,8 +4,8 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.association :product %>
-    <%= f.association :wishlist %>
+    <%= f.association :product, collection: Product.order('name ASC') %>
+    <%= f.association :wishlist, collection: Wishlist.order('name ASC') %>
     <%= f.input :order %>
   </div>
 

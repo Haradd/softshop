@@ -7,8 +7,8 @@
     <%= f.input :name %>
     <%= f.input :description %>
     <%= f.input :price %>
-    <%= f.association :product_type %>
-    <%= f.association :publisher %>
+    <%= f.association :product_type, collection: ProductType.order('name ASC') %>
+    <%= f.association :publisher, collection: Publisher.order('name ASC') %>
   </div>
 
   <div class="form-actions">

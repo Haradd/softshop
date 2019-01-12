@@ -5,7 +5,7 @@
 
   <div class="form-inputs">
     <%= f.input :text %>
-    <%= f.association :newsletter %>
+    <%= f.association :newsletter, collection: Newsletter.order('title ASC') %>
   </div>
 
   <div class="form-actions">
