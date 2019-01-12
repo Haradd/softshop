@@ -5,17 +5,34 @@
   </div>
 <% end %>
 
-<%= search_form_for search, url: '', as: search_key do |f| %>
-  <%= f.condition_fields do |c| %>
-  <div class="field">
-    <%= c.attribute_fields do |a| %>
-      <%= a.attribute_select %>
+<% if try(:search_key) %>
+  <%= search_form_for search, url: '', as: search_key do |f| %>
+    <%= f.condition_fields do |c| %>
+    <div class="field">
+      <%= c.attribute_fields do |a| %>
+        <%= a.attribute_select %>
+      <% end %>
+      <%= c.predicate_select %>
+      <%= c.value_fields do |v| %>
+        <%= v.text_field :value %>
+      <% end %>
+      </div>
     <% end %>
-    <%= c.predicate_select %>
-    <%= c.value_fields do |v| %>
-      <%= v.text_field :value %>
-    <% end %>
-    </div>
+    <div class="actions"><%= f.submit "Search" %></div>
   <% end %>
-  <div class="actions"><%= f.submit "Search" %></div>
+<% else %>
+  <%= search_form_for search, url: '' do |f| %>
+    <%= f.condition_fields do |c| %>
+    <div class="field">
+      <%= c.attribute_fields do |a| %>
+        <%= a.attribute_select %>
+      <% end %>
+      <%= c.predicate_select %>
+      <%= c.value_fields do |v| %>
+        <%= v.text_field :value %>
+      <% end %>
+      </div>
+    <% end %>
+    <div class="actions"><%= f.submit "Search" %></div>
+  <% end %>
 <% end %>
