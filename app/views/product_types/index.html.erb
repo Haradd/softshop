@@ -2,13 +2,13 @@
 
 <h1>Product Types</h1>
 
-<%= render 'ransack/search_form' %>
+<%= render 'ransack/search_form', search: @search_product_types, search_key: :q_product_type %>
 
 <table class="table table-striped" >
   <thead>
     <tr>
-      <th><%= sort_link(@search, :name, "Name") %></th>
-      <th><%= sort_link(@search, :description, "Description") %></th>
+      <th><%= sort_link(@search_product_types, :name, "Name") %></th>
+      <th><%= sort_link(@search_product_types, :description, "Description") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
