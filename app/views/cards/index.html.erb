@@ -19,7 +19,7 @@
         <td><%= card.number %></td>
         <td><%= card.customer %></td>
         <td><%= link_to 'Show', card %></td>
-        <td><%= link_to 'Edit', edit_card_path(card) %></td>
+        <td><%= link_to 'Edit', edit_card_path(card ), class: 'btn btn-default' %></td>
         <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
       </tr>
     <% end %>

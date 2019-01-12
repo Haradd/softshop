@@ -21,7 +21,7 @@
         <td><%= signup.customer %></td>
         <td><%= signup.newsletter %></td>
         <td><%= link_to 'Show', signup %></td>
-        <td><%= link_to 'Edit', edit_signup_path(signup) %></td>
+        <td><%= link_to 'Edit', edit_signup_path(signup ), class: 'btn btn-default' %></td>
         <% if signup.active? %>
           <td><%= link_to 'Unsubscribe', unsubscribe_signup_path(signup), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
         <% else %>

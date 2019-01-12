@@ -25,7 +25,7 @@
         <td><%= product.product_type %></td>
         <td><%= product.publisher %></td>
         <td><%= link_to 'Show', product %></td>
-        <td><%= link_to 'Edit', edit_product_path(product) %></td>
+        <td><%= link_to 'Edit', edit_product_path(product ), class: 'btn btn-default' %></td>
         <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
       </tr>
     <% end %>

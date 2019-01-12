@@ -19,7 +19,7 @@
         <td><%= mail.text %></td>
         <td><%= mail.newsletter %></td>
         <td><%= link_to 'Show', mail %></td>
-        <td><%= link_to 'Edit', edit_mail_path(mail) %></td>
+        <td><%= link_to 'Edit', edit_mail_path(mail ), class: 'btn btn-default' %></td>
         <td><%= link_to 'Destroy', mail, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
       </tr>
     <% end %>

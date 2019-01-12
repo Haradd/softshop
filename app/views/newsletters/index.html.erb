@@ -19,7 +19,7 @@
         <td><%= newsletter.title %></td>
         <td><%= newsletter.product_type.name %></td>
         <td><%= link_to 'Show', newsletter %></td>
-        <td><%= link_to 'Edit', edit_newsletter_path(newsletter) %></td>
+        <td><%= link_to 'Edit', edit_newsletter_path(newsletter ), class: 'btn btn-default' %></td>
         <td><%= link_to 'Destroy', newsletter, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
       </tr>
     <% end %>

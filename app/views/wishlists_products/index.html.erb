@@ -21,7 +21,7 @@
         <td><%= wishlists_product.product %></td>
         <td><%= wishlists_product.wishlist %></td>
         <td><%= link_to 'Show', wishlists_product %></td>
-        <td><%= link_to 'Edit', edit_wishlists_product_path(wishlists_product) %></td>
+        <td><%= link_to 'Edit', edit_wishlists_product_path(wishlists_product ), class: 'btn btn-default' %></td>
         <td><%= link_to 'Destroy', wishlists_product, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
       </tr>
     <% end %>
