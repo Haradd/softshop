@@ -1,9 +1,58 @@
+<div class='container'>
+  <div clas='row'>
+    <%= link_to 'Customers', customers_path, class: 'btn btn-success' %>
+  </div>
 
-<ul>
-  <% @paths.each do |path| %>
-    <li>
-      <%= link_to path[:controller], path %>
-    </li>
-    <br />
-  <% end %>
-</ul>
+  <br/>
+  <div clas='row'>
+  <%= link_to 'Orders', orders_path, class: 'btn btn-success' %>
+  </div>
+
+  <br/>
+  <div clas='row'>
+  <%= link_to 'Products', products_path, class: 'btn btn-success' %>
+  </div>
+
+  <br/>
+  <div clas='row'>
+  <%= link_to 'Wishlists', wishlists_path, class: 'btn btn-success' %>
+  </div>
+
+  <br/>
+  <div clas='row'>
+  <%= link_to 'Publishers', publishers_path, class: 'btn btn-success' %>
+  </div>
+
+  <br/>
+  <div clas='row'>
+  <%= link_to 'Product Types', product_types_path, class: 'btn btn-success' %>
+  </div>
+
+  <br/>
+  <div clas='row'>
+  <%= link_to 'Signups', signups_path, class: 'btn btn-success' %>
+  </div>
+
+  <br/>
+  <div clas='row'>
+  <%= link_to 'Newsletters', newsletters_path, class: 'btn btn-success' %>
+  </div>
+
+  <br/>
+  <div clas='row'>
+  <%= link_to 'Mails', mails_path, class: 'btn btn-success' %>
+  </div>
+  <br/>
+
+  <hr />
+
+  <div clas='row'>
+  <%= link_to 'OrdersProducts', orders_products_path, class: 'btn btn-warning' %>
+  </div>
+
+  <br/>
+  <div clas='row'>
+  <%= link_to 'WishlistProducts', wishlists_products_path, class: 'btn btn-warning' %>
+  </div>
+
+</div>
