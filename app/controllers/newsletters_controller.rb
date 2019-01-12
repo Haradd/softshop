@@ -5,13 +5,20 @@ class NewslettersController < ApplicationController
 
   # GET /newsletters
   def index
-    @search = Newsletter.search(params[:q])
-    @newsletters = @search.result(distinct: true)
-    @search.build_condition
+    @search_newsletters = Newsletter.search(params[:q])
+    @newsletters = @search_newsletters.result(distinct: true)
+    @search_newsletters.build_condition
   end
 
   # GET /newsletters/1
   def show
+    @search_customers = @newsletter.customers.search(params[:q_customer], search_key: :q_customer)
+    @customers = @search_customers.result(distinct: true)
+    @search_customers.build_condition
+
+    @search_mails = @newsletter.mails.search(params[:q_mail], search_key: :q_mail)
+    @mails = @search_mails.result(distinct: true)
+    @search_mails.build_condition
   end
 
   # GET /newsletters/new
@@ -57,6 +64,6 @@ class NewslettersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def newsletter_params
-      params.require(:newsletter).permit(:title, :product_type_name)
+      params.require(:newsletter).permit(:title, :mail_type_name)
     end
 end

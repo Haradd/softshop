@@ -2,13 +2,14 @@
 
 <h1>Newsletters</h1>
 
-<%= render 'ransack/search_form', search: @search %>
+<%= render 'ransack/search_form', search: @search_newsletters, search_key: :q_newsletter %>
 
 <table class="table table-striped" >
   <thead>
     <tr>
-      <th><%= sort_link(@search, :title, "Title") %></th>
-      <th><%= sort_link(@search, :product_type, "Product Type") %></th>      <th colspan="3"></th>
+      <th><%= sort_link(@search_newsletters, :title, "Title") %></th>
+      <th><%= sort_link(@search_newsletters, :product_type, "Product Type") %></th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 

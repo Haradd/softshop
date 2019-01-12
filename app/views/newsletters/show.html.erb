@@ -10,5 +10,10 @@
   <%= @newsletter.product_type.name %>
 </p>
 
+
+<%= render file: 'customers/index.html.erb', customers: @customers %>
+<%= render file: 'mails/index.html.erb', mails: @mails %>
+
+
 <%= link_to 'Edit', edit_newsletter_path(@newsletter) %> |
 <%= link_to 'Back', newsletters_path %>
