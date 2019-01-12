@@ -5,13 +5,16 @@ class WishlistsController < ApplicationController
 
   # GET /wishlists
   def index
-    @search_wishlist = Wishlist.search(params[:q_wishlist], search_key: :q_wishlist)
-    @wishlists = @search_wishlist.result(distinct: true)
-    @search_wishlist.build_condition
+    @search_wishlists = Wishlist.search(params[:q_wishlist], search_key: :q_wishlist)
+    @wishlists = @search_wishlists.result(distinct: true)
+    @search_wishlists.build_condition
   end
 
   # GET /wishlists/1
   def show
+    @search_products = @wishlist.products.search(params[:q_product], search_key: :q_product)
+    @products = @search_products.result(distinct: true)
+    @search_products.build_condition
   end
 
   # GET /wishlists/new
