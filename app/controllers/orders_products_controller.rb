@@ -5,9 +5,9 @@ class OrdersProductsController < ApplicationController
 
   # GET /orders_products
   def index
-    @search = OrdersProduct.search(params[:q])
-    @orders_products = @search.result(distinct: true)
-    @search.build_condition
+    @search_orders_products = OrdersProduct.search(params[:q_orders_product], search_key: :q_orders_product)
+    @orders_products = @search_orders_products.result(distinct: true)
+    @search_orders_products.build_condition
   end
 
   # GET /orders_products/1

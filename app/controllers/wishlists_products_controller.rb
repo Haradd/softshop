@@ -3,9 +3,9 @@ class WishlistsProductsController < ApplicationController
 
   # GET /wishlists_products
   def index
-    @search = WishlistsProduct.search(params[:q])
-    @wishlists_products = @search.result(distinct: true)
-    @search.build_condition
+    @search_wishlists_products = WishlistsProduct.search(params[:q_wishlists_product], search_key: :q_wishlists_product)
+    @wishlists_products = @search_wishlists_products.result(distinct: true)
+    @search_wishlists_products.build_condition
   end
 
   # GET /wishlists_products/1

@@ -1,15 +1,15 @@
- 
+
 
 <h1>Wishlists Products</h1>
 
-<%= render 'ransack/search_form', search: @search %>
+<%= render 'ransack/search_form', search: @search_wishlists_products, search: :q_wishlists_product %>
 
 <table class="table table-striped" >
   <thead>
     <tr>
-      <th><%= sort_link(@search, :order, "Order") %></th>
-      <th><%= sort_link(@search, :product, "Product") %></th>
-      <th><%= sort_link(@search, :wishlist, "Wishlist") %></th>
+      <th><%= sort_link(@search_wishlists_products, :order, "Order") %></th>
+      <th><%= sort_link(@search_wishlists_products, :product, "Product") %></th>
+      <th><%= sort_link(@search_wishlists_products, :wishlist, "Wishlist") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
