@@ -2,14 +2,14 @@
 
 <h1>Signups</h1>
 
-<%= render 'ransack/search_form', search: @search %>
+<%= render 'ransack/search_form', search: @search_signups, search_key: :q_signup %>
 
 <table class="table table-striped" >
   <thead>
     <tr>
-      <th><%= sort_link(@search, :active, "Active?") %></th>
-      <th><%= sort_link(@search, :customer, "Customer") %></th>
-      <th><%= sort_link(@search, :newsletter, "Newsletter") %></th>
+      <th><%= sort_link(@search_signups, :active, "Active?") %></th>
+      <th><%= sort_link(@search_signups, :customer, "Customer") %></th>
+      <th><%= sort_link(@search_signups, :newsletter, "Newsletter") %></th>
       <th colspan="4"></th>
     </tr>
   </thead>
