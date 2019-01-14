@@ -13,6 +13,6 @@ class Order < ApplicationRecord
   validates :card, presence: true
 
   def to_s
-    id.to_s
+    id.to_s + ': ' + customer.email
   end
 end
