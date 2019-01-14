@@ -3,9 +3,9 @@ class SignupsController < ApplicationController
 
   # GET /signups
   def index
-    @search = Signup.search(params[:q])
-    @signups = @search.result(distinct: true)
-    @search.build_condition
+    @search_signups = Signup.search(params[:q_signup], search_key: :q_signup)
+    @signups = @search_signups.result(distinct: true)
+    @search_signups.build_condition
   end
 
   # GET /signups/1
@@ -55,7 +55,7 @@ class SignupsController < ApplicationController
   # PATCH
   def subscribe
     if @signup.update(active: true)
-      redirect_to signups_url, notice: 'Signup was successfully updated.'
+      redirect_to signups_url, notice: 'Signup was successfully subscribed.'
     else
       redirect_to signups_url, notice: "Subscribing failed.\n #{@signup.errors.messsages}"
     end
