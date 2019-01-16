@@ -10,6 +10,6 @@ class Wishlist < ApplicationRecord
   validates :customer, presence: true
 
   def to_s
-    name + ' id: ' + id.to_s
+    name + ' customer: ' + customer.email
   end
 end
